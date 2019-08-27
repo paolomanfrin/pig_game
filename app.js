@@ -27,11 +27,12 @@ function rollDice(){
     var dice = [Math.floor(Math.random()*6+1),Math.floor(Math.random()*6+1)];
     console.log(dice);
     
-    var dice1DOM = document.querySelector('.dice');
+    //var dice1DOM = document.querySelector('.dice');
+    var dice1DOM = document.getElementById('dice1');
     dice1DOM.src = "dice-" + dice[0] + ".png";
     dice1DOM.style.display = "block";
     
-    var dice2DOM = document.querySelector('.dice2');
+    var dice2DOM = document.getElementById('dice2');
     dice2DOM.src = "dice-" + dice[1] + ".png";
     dice2DOM.style.display = "block";
 
@@ -84,8 +85,8 @@ function holdScore() {
 
 function switchPlayer(){
     
-    document.querySelector('.dice').style.display = "none";
-    document.querySelector('.dice2').style.display = "none";
+    document.getElementById('dice1').style.display = "none";
+    document.getElementById('dice2').style.display = "none";
     document.getElementById('current-' + activePlayer).innerHTML= "0";
     activePlayer = activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
     

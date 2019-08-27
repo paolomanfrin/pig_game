@@ -8,7 +8,7 @@ GAME RULES:
 - The first player to reach 20 points on GLOBAL score wins the game
 */
 
-var scores, roundScore, activePlayer, gameOver, previousScore;
+var scores, roundScore, activePlayer, gameOver, previousScore, winningScore;
 init();
 
 
@@ -17,9 +17,13 @@ document.querySelector('.btn-hold').addEventListener('click', holdScore);
 document.querySelector('.btn-new').addEventListener('click', init);
 
 function rollDice(){
-    if (gameOver)
-        return;
     
+    document.getElementById("winning-score").disabled = true; 
+    if (gameOver)
+        {
+           document.getElementById("winning-score").disabled = false; 
+            return;
+        }
     var dice = Math.floor(Math.random()*6+1);
     console.log(dice);
     var diceDOM = document.querySelector('.dice');
@@ -62,7 +66,7 @@ function holdScore() {
     document.getElementById('score-' + activePlayer).textContent = totalScore;
     scores[activePlayer] = totalScore; // save score
     
-    if (totalScore > 20){
+    if (totalScore > winningScore){
         // a winner 
         document.getElementById('name-' + activePlayer).textContent = "WINNER!";
         console.log("winner!");
@@ -92,6 +96,10 @@ function init()
     roundScore = 0;
     activePlayer = 0;
     gameOver = false;
+    
+    document.getElementById("winning-score").disabled = false;
+    winningScore = parseInt(document.getElementById("winning-score").value);
+    console.log("winning score: " + winningScore);
     
     // reset players name
     document.getElementById('name-0').innerHTML = "PLAYER 1";

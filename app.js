@@ -8,7 +8,7 @@ GAME RULES:
 - The first player to reach 20 points on GLOBAL score wins the game
 */
 
-var scores, roundScore, activePlayer, gameOver;
+var scores, roundScore, activePlayer, gameOver, previousScore;
 init();
 
 
@@ -21,15 +21,24 @@ function rollDice(){
         return;
     
     var dice = Math.floor(Math.random()*6+1);
+    console.log(dice);
     var diceDOM = document.querySelector('.dice');
     diceDOM.src = "dice-" + dice + ".png";
     diceDOM.style.display = "block";
     
     if (dice!==1){
-        var currentScore = parseInt(document.getElementById('current-' + activePlayer).innerHTML);
-        currentScore =  currentScore + dice;
-        document.getElementById('current-' + activePlayer).innerHTML = currentScore;
         
+        if (dice==6 && previousScore[activePlayer]==6)
+        {
+            console.log("Two six in a row");
+            switchPlayer();
+        }
+        else {
+            var currentScore = parseInt(document.getElementById('current-' + activePlayer).innerHTML);
+            currentScore =  currentScore + dice;
+            document.getElementById('current-' + activePlayer).innerHTML = currentScore;
+            previousScore[activePlayer] = dice;
+        }
         
     }
     else {
@@ -69,7 +78,7 @@ function switchPlayer(){
     document.getElementById('current-' + activePlayer).innerHTML= "0";
     activePlayer = activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
     
-    console.log("current active player is " + activePlayer);
+    console.log("current active player is " + (activePlayer+1));
     
     document.querySelector('.player-0-panel').classList.toggle("active");
     document.querySelector('.player-1-panel').classList.toggle("active");
@@ -79,6 +88,7 @@ function switchPlayer(){
 function init()
 {
     scores = [0,0];
+    previousScore = [0,0];
     roundScore = 0;
     activePlayer = 0;
     gameOver = false;

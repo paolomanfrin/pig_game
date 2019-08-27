@@ -24,29 +24,35 @@ function rollDice(){
            document.getElementById("winning-score").disabled = false; 
             return;
         }
-    var dice = Math.floor(Math.random()*6+1);
+    var dice = [Math.floor(Math.random()*6+1),Math.floor(Math.random()*6+1)];
     console.log(dice);
-    var diceDOM = document.querySelector('.dice');
-    diceDOM.src = "dice-" + dice + ".png";
-    diceDOM.style.display = "block";
     
-    if (dice!==1){
+    var dice1DOM = document.querySelector('.dice');
+    dice1DOM.src = "dice-" + dice[0] + ".png";
+    dice1DOM.style.display = "block";
+    
+    var dice2DOM = document.querySelector('.dice2');
+    dice2DOM.src = "dice-" + dice[1] + ".png";
+    dice2DOM.style.display = "block";
+
+    
+    if (dice[0]!==1 && dice[1]!==1){
         
-        if (dice==6 && previousScore[activePlayer]==6)
+        if (((dice[0]==6 || dice[0]==6) && previousScore[activePlayer]==6) || (dice[0]==6 && dice[1]==6))
         {
             console.log("Two six in a row");
             switchPlayer();
         }
         else {
             var currentScore = parseInt(document.getElementById('current-' + activePlayer).innerHTML);
-            currentScore =  currentScore + dice;
+            currentScore =  currentScore + dice[0] + dice[1];
             document.getElementById('current-' + activePlayer).innerHTML = currentScore;
-            previousScore[activePlayer] = dice;
+            previousScore[activePlayer] = dice[0] > dice[1] ? dice[0] : dice[1];
         }
         
     }
     else {
-        // change player
+        // there was a 1, change player
         switchPlayer();
     }
     
@@ -79,6 +85,7 @@ function holdScore() {
 function switchPlayer(){
     
     document.querySelector('.dice').style.display = "none";
+    document.querySelector('.dice2').style.display = "none";
     document.getElementById('current-' + activePlayer).innerHTML= "0";
     activePlayer = activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
     
